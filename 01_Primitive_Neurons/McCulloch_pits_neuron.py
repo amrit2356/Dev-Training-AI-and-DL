@@ -1,0 +1,3 @@
+"""
+McCulloch-Pits Neuron
+"""
