@@ -1,0 +1,29 @@
+Six Elements of ML:
+    1. Data 
+    2. Tasks
+    3. Models
+    4. Loss Function
+    5. Learning Algorithm
+    6. Evaluation
+
+Data:
+    - For ML, training data with input & output is req for supervised learning.
+    - All data is encoded as numbers.
+    - Typically High dimensional.
+
+
+Tasks:
+
+
+Models:
+
+
+Loss Function:
+
+
+Learning Algorithm:
+
+
+Evaluation:
+
+

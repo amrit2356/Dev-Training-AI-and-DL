@@ -1,0 +1,39 @@
+Expert Systems:
+    - It is a set of rules which yield true/false values.
+    - Based on the values obtained by training examples under these rules, the output is determined appropriately.
+    - Similar to multiple if/else statements.
+    - Examples: 
+        a. used in organic chem. to find out structures based on rules.
+        b. Misson Control for space programs
+        c. Chatbots
+
+Characteristics of Expert Systems:
+    - High Performance
+    - Understandable
+    - Reliable
+    - Highly Responsive.
+
+Limitations of Expert Systems:
+    - Too many rules to write down.
+    - Certain rules are hard to define.
+    - Some rules cannot be coded
+    - Rules can be sometimes unknown.
+
+
+Solution to above Limitations: Machine Learning
+    -> It outsources the rule defining to the computer, by allowing it to find relationships between the input cond. & the output values.
+    -> This allows the computer to use multiple iteratins, to redefine the initial rules.
+
+Why ML is so successful?
+    - Extremely large amount of data. 
+    - Access from Multiple sources to use pre trained Models and Algorithms.
+    - Relatively fast & cheap cloud/computing.
+
+Roles involved in ML:
+    - Collect & curate data. Define Tasks.
+    - ML Engineering
+    - ML Research
+
+
+
+
