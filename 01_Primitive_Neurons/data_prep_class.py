@@ -41,7 +41,9 @@ def main():
     breast_cancer = sklearn.datasets.load_breast_cancer()
     test_data = DataPreparation()
     test_data.getdata(breast_cancer.data)
+    print(test_data.x)
     test_data.gettarget(breast_cancer.target)
+    print(test_data.y)
     data = test_data.dataset_generate(breast_cancer.feature_names)
     print(data.head())
     x_train, x_test, y_train, y_test = test_data.dataset_split(
