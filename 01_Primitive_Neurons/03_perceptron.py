@@ -43,7 +43,7 @@ class Perceptron:
                 max_accuracy = accuracy[i]
                 chkptw = self.w
                 chkptb = self.b
-        
+
         self.w = chkptw
         self.b = chkptb
         plt.plot(accuracy.values())

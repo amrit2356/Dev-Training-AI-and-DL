@@ -1,6 +1,6 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
-import sklearn.datasets
+# import sklearn.datasets
 
 
 class DataPreparation:
@@ -36,24 +36,23 @@ class DataPreparation:
         x_binarized_test = x_test.apply(pd.cut, bins=2, labels=[1, 0])
         return x_binarized_train.values, x_binarized_test.values
 
+# def main():
+#     breast_cancer = sklearn.datasets.load_breast_cancer()
+#     test_data = DataPreparation()
+#     test_data.getdata(breast_cancer.data)
+#     print(test_data.x)
+#     test_data.gettarget(breast_cancer.target)
+#     print(test_data.y)
+#     data = test_data.dataset_generate(breast_cancer.feature_names)
+#     print(data.head())
+#     x_train, x_test, y_train, y_test = test_data.dataset_split(
+#         test_size=0.1, random_state=1)
+#     print(test_data.x.shape, x_train.shape, x_test.shape)
+#     print(test_data.y.shape, y_train.shape, y_test.shape)
 
-def main():
-    breast_cancer = sklearn.datasets.load_breast_cancer()
-    test_data = DataPreparation()
-    test_data.getdata(breast_cancer.data)
-    print(test_data.x)
-    test_data.gettarget(breast_cancer.target)
-    print(test_data.y)
-    data = test_data.dataset_generate(breast_cancer.feature_names)
-    print(data.head())
-    x_train, x_test, y_train, y_test = test_data.dataset_split(
-        test_size=0.1, random_state=1)
-    print(test_data.x.shape, x_train.shape, x_test.shape)
-    print(test_data.y.shape, y_train.shape, y_test.shape)
-
-    x_binarized_train, x_binarized_test = test_data.dataset_binarization(
-        x_train, x_test)
+#     x_binarized_train, x_binarized_test = test_data.dataset_binarization(
+#         x_train, x_test)
 
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
