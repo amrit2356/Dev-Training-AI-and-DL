@@ -33,7 +33,7 @@ class MPNeuron:
     def fit(self, X, Y):
         accuracy = {}
 
-        for b in range(X.shape[1]+1):
+        for b in range(X.shape[1] + 1):
             self.b = b
             y_pred = self.predict(X)
             accuracy[b] = accuracy_score(y_pred, Y)
