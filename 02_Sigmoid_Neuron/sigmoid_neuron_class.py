@@ -46,6 +46,7 @@ class SigmoidNeuron:
             if display_loss:
                 Y_pred = self.sigmoid(self.perceptron(X))
                 loss[i] = mean_squared_error(Y_pred, Y)
+
         if display_loss:
             plt.plot(loss.values())
             plt.xlabel('Epochs')

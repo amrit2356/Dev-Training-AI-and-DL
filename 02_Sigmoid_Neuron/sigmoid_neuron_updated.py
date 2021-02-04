@@ -1,5 +1,6 @@
 import numpy as np
-from tqdm import tqdm_notebook
+import tqdm
+from tqdm.notebook import tnrange
 import matplotlib.pyplot as plt
 from sklearn.metrics import mean_squared_error, log_loss
 
@@ -53,7 +54,7 @@ class SigmoidNeuron:
         if display_loss:
             loss = {}
 
-        for i in tqdm_notebook(range(epochs), total=epochs, unit="epoch"):
+        for i in tnrange(range(epochs), total=epochs, unit="epoch"):
             dw = 0
             db = 0
             for x, y in zip(X, Y):

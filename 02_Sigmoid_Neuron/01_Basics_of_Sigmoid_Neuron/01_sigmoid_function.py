@@ -5,7 +5,7 @@ import matplotlib.colors
 
 # Prints the Sigmoid value
 def sigmoid(x, w, b):
-    return 1/(1 + np.exp(-(w*x + b)))
+    return 1 / (1 + np.exp(-(w * x + b)))
 
 
 print("sigmoid {:.3f}".format(sigmoid(1, 0.5, 0)))
@@ -22,7 +22,7 @@ plt.show()
 
 # Plotting Gradient Plot for Sigmoid Function(2D)
 def sigmoid_2d(x1, x2, w1, w2, b):
-    return 1/(1 + np.exp(-(w1*x1 + w2*x2 + b)))
+    return 1 / (1 + np.exp(-(w1 * x1 + w2 * x2 + b)))
 
 
 # Creation of 10x10 Meshgrid Input.
@@ -103,7 +103,7 @@ plt.show()
 print(np.argmin(Loss))
 
 ij = np.argmin(Loss)
-i = int(np.floor(ij/Loss.shape[1]))
+i = int(np.floor(ij / Loss.shape[1]))
 j = int(ij - i * Loss.shape[1])
 print(i, j)
 print(WW[i, j], BB[i, j])
