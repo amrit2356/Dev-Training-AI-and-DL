@@ -7,13 +7,12 @@ from .utils import create_path
 
 
 class DatasetPreparator:
-    def __init__(self):
-        pass
-
-    def dataset_creator(self, datapath, trainpath):
-        print("Accessing Dataset....")
+    def __init__(self, datapath, trainpath):
         self.data_path = datapath
         self.output_path = trainpath
+
+    def dataset_creator(self):
+        print("Accessing Dataset....")
         create_path(self.output_path)
         create_path(join(self.output_path, 'train'))
         classes = [d for d in listdir(self.data_path) if isdir(join(self.data_path, d))]
@@ -29,6 +28,8 @@ class DatasetPreparator:
                     shutil.copyfile(join(self.data_path, cls, file), join(self.output_path, 'train', file))
         print('Created Train.csv File')
         return csv_path
+
+
 """
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

@@ -14,7 +14,7 @@ class TeamClassifier(nn.Module):
 
         self.fc_layer1 = nn.Linear(1024, 512)
         self.fc_layer2 = nn.Linear(512, 256)
-        self.fc_layer3 = nn.Linear(256, 124)
+        self.fc_layer3 = nn.Linear(256, 2)
 
         self.training = True
 

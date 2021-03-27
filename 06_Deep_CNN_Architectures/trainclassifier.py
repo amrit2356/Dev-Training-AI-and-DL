@@ -2,11 +2,14 @@ from os.path import join
 import torch
 import torch.nn as nn
 from tqdm import tqdm
+from Models.VggNet.VggNet import VggNet
 
 class ClassifierTrain:
-    def __init__(self, model, trainloader, testloader, learning_rate):
+    def __init__(self, trainloader, testloader, learning_rate):
+        torch.cuda.empty_cache()
         self.device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
-        self.model = model.to(self.device)
+        vgg_net = VggNet()
+        self.model = vgg_net.model.eval()
         self.train_loader = trainloader
         self.test_loader = testloader
         self.criterion = nn.CrossEntropyLoss().to(self.device)

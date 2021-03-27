@@ -3,13 +3,12 @@ Testing Models on CIDAR10 Dataset
 """
 import argparse
 import dataset
-from Models.ZFNet.ZFNet import ZFNet
+# from Models.ZFNet.ZFNet import ZFNet
 from trainclassifier import ClassifierTrain
 
 
 def main(args):
-    model = ZFNet()
-    training = ClassifierTrain(model, dataset.trainloader, dataset.testloader, learning_rate=args.learning_rate)
+    training = ClassifierTrain(dataset.trainloader, dataset.testloader, learning_rate=args.learning_rate)
     training.train(args.epochs, args.checkpoint_path)
 
 if __name__ == "__main__":

@@ -1,28 +1,27 @@
 """
-Generic Dataloader.
+Dataloader.
 """
-import argparse
-from os.path import join, exists
-
+# import argparse
 import pandas as pd
 import torchvision.transforms as transforms
 from sklearn.model_selection import train_test_split
 from torch.utils.data import DataLoader
-from torchvision.datasets import ImageFolder
 
 from .team_dataset import TeamDataset
 from .prepare_classification_dataset import DatasetPreparator
 
 class Dataloader:
-    def __init__(self, batch_size, dataset_path):
-        self.data_csv = None
-        self.image_path = None
-
+    def __init__(self, batch_size, dataset_path, train_path):
+        # Initialization  of DataLoader Attributes.
         self.batch_size = batch_size
         self.dataset_path = dataset_path
-        self.train_path = '/home/edisn/Pytorch_CNN_Training/Dev-Training-DL/Exercises/06_Custom_CNN_Network/training_data/'
-        self.data_prep = DatasetPreparator()
+        self.train_path = train_path
 
+        # Initialization of Dataset Preparation Class
+        self.data_prep = DatasetPreparator(self.dataset_path, self.train_path)
+        self.csv_path = self.data_prep.dataset_creator()
+
+        # __parameters_normalized() code
         # Getting Mean and Standard Deviation
         self.transform_train = transforms.Compose([
             transforms.ToPILImage(),
@@ -39,16 +38,8 @@ class Dataloader:
             transforms.Normalize(mean=[0.438, 0.479, 0.335], std=[0.150, 0.155, 0.152]),
         ])
 
-    def __dataset_prep(self):
-        return self.data_prep.dataset_creator(self.dataset_path, self.train_path)
-
-    def __parameters_normalize():
-        # To check whether parameters are normalized
-        pass
-
     def data_loader(self):
-        self.data_csv = self.__dataset_prep()
-        labels = pd.read_csv(self.data_csv)
+        labels = pd.read_csv(self.csv_path)
 
         train_data, valid_data = train_test_split(labels, stratify=labels.cls, test_size=0.2)
 
@@ -60,7 +51,8 @@ class Dataloader:
         print('Trainloader & Testloader ready')
         return trainloader, testloader
 
-
+# Testing Code
+"""
 def main(args):
     data = Dataloader(args.batch_size, args.filepath)
     trainloader, testloader = data.data_loader()
@@ -71,7 +63,6 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('--filepath', type=str, default='/home/edisn/Pytorch_CNN_Training/Dev-Training-DL/Exercises/06_Custom_CNN_Network/dataset')
-    parser.add_argument('--batch_size', type=int, default=10)
     args = parser.parse_args()
     main(args)
+"""
