@@ -9,7 +9,7 @@ from sklearn.model_selection import train_test_split
 from torch.utils import data
 from torchvision import transforms
 
-from data.team_dataset import TeamDataset
+from team_dataset import TeamDataset
 
 
 class FiniteRandomSampler(data.Sampler):
@@ -182,7 +182,8 @@ def parse_input():
 
     return args
 
-
+"""
 if __name__ == "__main__":
     args = parse_input()
     main(args)
+"""

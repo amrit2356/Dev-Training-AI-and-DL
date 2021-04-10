@@ -27,7 +27,7 @@ class FFNNetwork:
         # Leaky Slope for Leaky-Relu Activation Function
         self.leaky_slope = 0.1
         # Folder Path for Loss Graphs
-        self.path = 'Exercises/03_Optimization_Algorithms/02_Better_Activation_Initialization_Algos/Loss_Graphs'
+        self.path = '04_Optimization_Algorithms/02_Better_Activation_Initialization_Algos/Loss_Graphs'
 
         np.random.seed(0)
         # Initialization Methods

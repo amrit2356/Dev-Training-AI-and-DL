@@ -5,7 +5,6 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from tqdm import tqdm
-
 from model.spatial_transformer_network import SpatialTransformerNet as Model
 
 
@@ -83,7 +82,6 @@ class STNTrain:
             self.model.eval()
 
     def __export_model(self, checkpoint_path, export_path):
-        # export_path = '/home/edisn/Pytorch_CNN_Training/Dev-Training-DL/Exercises/06_Custom_CNN_Network/exports/'
         checkpoint = torch.load(join(checkpoint_path, 'spatial_transformer_networks_best.pth'))
         model = checkpoint['model']
         model.load_state_dict(checkpoint['state_dict'])

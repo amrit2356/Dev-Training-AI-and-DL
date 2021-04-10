@@ -138,4 +138,5 @@ dmypy.json
 cython_debug/
 
 # Additional Folders
+data/
 *.jpg

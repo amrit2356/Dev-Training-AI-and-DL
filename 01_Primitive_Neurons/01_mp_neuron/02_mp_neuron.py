@@ -32,7 +32,7 @@ b = 3
 # print(acc_rows)
 # print(acc_rows/dp.x_binarized_train.shape[0])
 
-for b in range(dp.x_binarized_train.shape[1]+1):
+for b in range(dp.x_binarized_train.shape[1] + 1):
     y_pred_train = []
     acc_rows = 0
     for x, y in zip(dp.x_binarized_train, dp.y_train):
@@ -41,7 +41,7 @@ for b in range(dp.x_binarized_train.shape[1]+1):
         acc_rows += (y == y_pred)
 
     print(b)
-    print(acc_rows/dp.x_binarized_train.shape[0])
+    print(acc_rows / dp.x_binarized_train.shape[0])
 
 
 # Calculating Inferenece using Testing Dataset

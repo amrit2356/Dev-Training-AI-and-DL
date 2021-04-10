@@ -1,7 +1,7 @@
 import argparse
-from team_classifier_train import TeamClassifierTrain
-from data_prep.utils import create_folder_structure
-from data_prep.dataloader import Dataloader
+from .team_classifier_train import TeamClassifierTrain
+from .data_prep.utils import create_folder_structure
+from .data_prep.dataloader import Dataloader
 
 def main(args):
     train_path, checkpoint_path, exports_path = create_folder_structure(args.output_path, args.project_name)
