@@ -37,6 +37,6 @@ def main(args):
 
 if __name__ == '__main__':
     argparser = argparse.ArgumentParser()
-    argparser.add_argument('--batch_size', type=int, default=2048, help='Number of images to run inference on')
+    argparser.add_argument('--batch_size', type=int, default=1024, help='Number of images to run inference on')
 
     main(argparser.parse_args())

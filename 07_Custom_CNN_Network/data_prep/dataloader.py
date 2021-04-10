@@ -3,6 +3,7 @@ Dataloader.
 """
 # import argparse
 import pandas as pd
+import torchvision.datasets as datasets
 import torchvision.transforms as transforms
 from sklearn.model_selection import train_test_split
 from torch.utils.data import DataLoader
@@ -38,17 +39,29 @@ class Dataloader:
             transforms.Normalize(mean=[0.438, 0.479, 0.335], std=[0.150, 0.155, 0.152]),
         ])
 
-    def data_loader(self):
-        labels = pd.read_csv(self.csv_path)
+    def data_loader(self, data_type):
 
-        train_data, valid_data = train_test_split(labels, stratify=labels.cls, test_size=0.2)
+        if data_type == 'custom':
+            labels = pd.read_csv(self.csv_path)
 
-        train = TeamDataset(train_data, self.train_path, self.transform_train)
-        valid = TeamDataset(valid_data, self.train_path, self.transform_test)
+            train_data, valid_data = train_test_split(labels, stratify=labels.cls, test_size=0.2)
 
-        trainloader = DataLoader(dataset=train, batch_size=self.batch_size, shuffle=True, num_workers=4)
-        testloader = DataLoader(dataset=valid, batch_size=self.batch_size, shuffle=False, num_workers=4)
-        print('Trainloader & Testloader ready')
+            train = TeamDataset(train_data, self.train_path, self.transform_train)
+            valid = TeamDataset(valid_data, self.train_path, self.transform_test)
+
+            trainloader = DataLoader(dataset=train, batch_size=self.batch_size, shuffle=True, num_workers=4)
+            testloader = DataLoader(dataset=valid, batch_size=self.batch_size, shuffle=False, num_workers=4)
+            print('Trainloader & Testloader ready')
+
+        elif data_type == 'CIFAR10':
+            # Training Data from CIFAR10 Dataset
+            train_data = datasets.CIFAR10(root='./data', train=True, download=True, transform=transform)
+            trainloader = DataLoader(train_data, batch_size=self.batch_size, shuffle=True, num_workers=2)
+
+            # Testing Data from CIFAR10 Dataset
+            test_data = datasets.CIFAR10(root='./data', train=False, download=True, transform=transform)
+            testloader = DataLoader(test_data, batch_size=self.batch_size, shuffle=False, num_workers=2)
+
         return trainloader, testloader
 
 # Testing Code
