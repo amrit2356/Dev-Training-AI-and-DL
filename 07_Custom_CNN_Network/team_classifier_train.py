@@ -1,12 +1,16 @@
-from os.path import join, isfile, exists
 from os import makedirs
+from os.path import exists, isfile, join
+
 import torch
 import torch.nn as nn
+from torch.utils.tensorboard.writer import SummaryWriter
 from tqdm import tqdm
+
 from models.team_classifier_cnn import TeamClassifier as Model
 
+
 class TeamClassifierTrain:
-    def __init__(self, trainloader, testloader, learning_rate):
+    def __init__(self, trainloader, testloader, learning_rate, pretrained=False):
         self.device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
         self.model = Model().to(self.device)
         self.train_loader = trainloader
@@ -86,11 +90,21 @@ class TeamClassifierTrain:
             self.model.to(self.device)
             self.model.eval()
 
+    def __tensorboard_logging(self, writer, epoch, train_loss, val_loss, val_acc):
+        writer.add_scalar('Training Loss', train_loss, epoch)
+        writer.add_scalar('Validation Loss', val_loss, epoch)
+        writer.add_scalar('Validation Accuracy', val_acc, epoch)
+
+    def __mlflow_logging(self):
+        pass
+
     def train(self, epochs, checkpoint_path, export_path):
-        train_loss_best = 0.0
+        writer = SummaryWriter()
         val_loss_best = 0.0
         val_acc_best = 0.0
+
         for epoch in range(1, epochs + 1):
+
             train_loss = self.__train_epoch()
             validation_loss, validation_accuracy = self.__val_epoch()
 
@@ -100,14 +114,17 @@ class TeamClassifierTrain:
             print('Epoch: {} Train Loss: {:.6f} Val Loss: {:.6f} Val Accuracy: {:.2f}%'.format(
                 epoch, train_loss, validation_loss, validation_accuracy))
 
+            self.__tensorboard_logging(writer, epoch, train_loss, validation_loss, validation_accuracy)
+
             if val_loss_best < validation_loss or val_acc_best < validation_accuracy:
                 val_loss_best = round(validation_loss, 3)
                 val_acc_best = round(validation_accuracy, 3)
                 model_path = self.__save_model(checkpoint_path, epoch, train_loss, val_acc_best)
+
             print('Checkpoint saved in this path: {}'.format(model_path))
+            writer.flush()
 
         self.__export_model(model_path, export_path)
-        print('Training complete!')
 
-    def mlflow_logging(self):
-        pass
+        print('Training complete!')
+        writer.close()

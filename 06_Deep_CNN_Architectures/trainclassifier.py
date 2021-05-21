@@ -1,4 +1,3 @@
-from os.path import join
 import torch
 import torch.nn as nn
 from tqdm import tqdm
@@ -9,6 +8,7 @@ class ClassifierTrain:
         torch.cuda.empty_cache()
         self.device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
         vgg_net = VggNet()
+        vgg_net.update_classifier()
         self.model = vgg_net.model.eval()
         self.train_loader = trainloader
         self.test_loader = testloader

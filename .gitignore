@@ -139,4 +139,5 @@ cython_debug/
 
 # Additional Folders
 data/
+runs/
 *.jpg
