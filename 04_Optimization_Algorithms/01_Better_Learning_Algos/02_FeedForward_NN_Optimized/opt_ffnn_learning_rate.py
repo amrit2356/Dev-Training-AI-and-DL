@@ -156,7 +156,7 @@ class FFNetwork:
         print("Training accuracy: ", round(accuracy_train, 4))
         print("Validation accuracy: ", round(accuracy_val, 4))
         if False:
-            plt.scatter(X_train[:, 0], X_train[:, 1], c=Y_pred_train, cmap=dataset.my_cmap,s=15 * (np.abs(np.sign(Y_pred_train - Y_train)) + .1))
+            plt.scatter(X_train[:, 0], X_train[:, 1], c=Y_pred_train, cmap=dataset.my_cmap, s=15 * (np.abs(np.sign(Y_pred_train - Y_train)) + .1))
             plt.show()
 
 
