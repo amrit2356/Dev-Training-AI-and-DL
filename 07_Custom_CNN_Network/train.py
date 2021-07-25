@@ -1,23 +1,17 @@
-import argparse
-from team_classifier_train import TeamClassifierTrain
+from input_parser import parse_input
 from data_prep.utils import create_folder_structure
 from data_prep.dataloader import Dataloader
+from team_classifier_train import TeamClassifierTrain
+
 
 def main(args):
-    train_path, checkpoint_path, exports_path = create_folder_structure(args.output_path, args.project_name)
-    data = Dataloader(args.batch_size, args.dataset_path, train_path, args.data_type)
+    train_path, checkpoint_path, exports_path, run_path = create_folder_structure(args.output_path, args.project_name)
+    data = Dataloader(args, args.batch_size, args.dataset_path, train_path, args.data_type)
     trainloader, testloader = data.data_loader()
-    training = TeamClassifierTrain(trainloader, testloader, args.learning_rate)
-    training.train(args.epochs, checkpoint_path, exports_path)
+    training = TeamClassifierTrain(trainloader, testloader, args.learning_rate, args.num_classes)
+    training.train(args.epochs, checkpoint_path, exports_path, run_path)
+
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--project_name', type=str, required=True)
-    parser.add_argument('--dataset_path', type=str, required=True)
-    parser.add_argument('--output_path', type=str, required=True)
-    parser.add_argument('--data_type', type=str, required=True)
-    parser.add_argument('--batch_size', type=int, default=512)
-    parser.add_argument('--learning_rate', type=float, default=0.001, help="Enter the Learning Rate")
-    parser.add_argument('--epochs', type=int, default=5)
-    args = parser.parse_args()
+    args = parse_input()
     main(args)
