@@ -1,4 +1,3 @@
-# import argparse
 import shutil
 from os import listdir
 from os.path import isdir, isfile, join
@@ -28,14 +27,3 @@ class DatasetPreparator:
                     shutil.copyfile(join(self.data_path, cls, file), join(self.output_path, 'train', file))
         print('Created Train.csv File')
         return csv_path
-
-
-"""
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
-
-    parser.add_argument('--dataset_path', required=True, type=str)
-    parser.add_argument('--output_path', required=True, type=str)
-
-    main(parser.parse_args())
-"""

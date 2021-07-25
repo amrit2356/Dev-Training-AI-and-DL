@@ -1,5 +1,4 @@
 """Utils"""
-# import argparse
 import os
 from os.path import exists, join
 from os import listdir, makedirs
@@ -53,14 +52,3 @@ def create_folder_structure(location_path, project_name):
         graph_path = join(location_path, project_name, 'runs')
     
     return training_path, checkpoint_path, export_path, graph_path
-
-"""
-def main(args):
-    train_path, checkpoint_path, export_path = create_folder_structure(args.model_path, args.project_name)
-
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--project_name', type=str, required=True)
-    parser.add_argument('--model_path', type=str, required=True)
-    main(parser.parse_args())
-"""

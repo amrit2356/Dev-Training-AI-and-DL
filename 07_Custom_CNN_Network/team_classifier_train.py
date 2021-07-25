@@ -11,8 +11,8 @@ from models.team_classifier_cnn import TeamClassifier as Model
 
 
 class TeamClassifierTrain:
-    def __init__(self, trainloader, testloader, learning_rate, num_of_classes):
-        self.device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+    def __init__(self, device ,trainloader, testloader, learning_rate, num_of_classes):
+        self.device = device
         self.model = Model(num_classes=num_of_classes).to(self.device)
         self.train_loader = trainloader
         self.test_loader = testloader

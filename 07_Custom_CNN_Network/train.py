@@ -6,11 +6,30 @@ from team_classifier_train import TeamClassifierTrain
 
 
 def main(config):
-    train_path, checkpoint_path, exports_path, run_path = create_folder_structure(config.project_details.project_path, config.project_details.project_name)
-    data = Dataloader(config, config.training_parameters.batch_size, config.project_details.dataset_path, train_path, 'custom')
+    # Project Attributes
+    project_path = config.project_details.project_path
+    dataset_path = config.project_details.dataset_path
+    project_name = config.project_details.project_name
+
+    # Training Attributes
+    batch_size = config.training_parameters.batch_size
+    learning_rate = config.training_parameters.learning_rate
+    num_classes = config.training_parameters.num_classes
+    num_epochs = config.training_parameters.num_epochs
+
+    # Torch Device
+    device = config.normalization_param.device
+    
+    # Setting the Training, Checkpoint, Export, Runs Folder Path
+    train_path, checkpoint_path, exports_path, run_path = create_folder_structure(project_path, project_name)
+    
+    # Preparing the Dataset for Training
+    data = Dataloader(config, batch_size, dataset_path, train_path)
     trainloader, testloader = data.data_loader()
-    training = TeamClassifierTrain(trainloader, testloader, config.training_parameters.learning_rate, config.training_parameters.num_classes)
-    training.train(config.training_parameters.num_epochs, checkpoint_path, exports_path, run_path)
+    
+    # Initialize Training Class
+    training = TeamClassifierTrain(device, trainloader, testloader, learning_rate, num_classes)
+    training.train(num_epochs, checkpoint_path, exports_path, run_path)
 
 
 if __name__ == "__main__":

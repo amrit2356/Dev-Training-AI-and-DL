@@ -10,7 +10,7 @@
       "batch_size": "None",
       "device": "None",
       "seed": "None",
-      "quiet": true,
+      "quiet": false,
       "print_freq": 50
     },
     "training_parameters": {

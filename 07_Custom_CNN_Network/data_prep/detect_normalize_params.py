@@ -1,6 +1,3 @@
-# import argparse
-# import multiprocessing
-import os
 import ast
 from math import ceil
 
@@ -70,7 +67,6 @@ class RunningAverage:
         labels = pd.read_csv(csv_path)
         train_data, _ = train_test_split(labels, stratify=labels.cls, test_size=0.2)
 
-        # dataset = DigitDataset(config.normalization_param.root, split="train", transform=transform)
         dataset = TeamDataset(train_data, dataset_path, transform=transform)
 
         num_samples = ast.literal_eval(config.normalization_param.num_samples)
@@ -114,80 +110,3 @@ class RunningAverage:
         print(f"mean={running_mean}, std={running_std}")
 
         return running_mean.tolist(), running_std.tolist()
-
-"""
-def parse_input():
-    parser = argparse.ArgumentParser(
-        description="Calculation of Team Classification z-score parameters"
-    )
-    # parser.add_argument("root", help="path to ImageNet dataset root directory")
-    parser.add_argument(
-        "--num-samples",
-        metavar="N",
-        type=int,
-        default=None,
-        help="Number of images used in the calculation. Defaults to the complete dataset.",
-    )
-    parser.add_argument(
-        "--num-workers",
-        metavar="N",
-        type=int,
-        default=None,
-        help="Number of workers for the image loading. Defaults to the number of CPUs.",
-    )
-    parser.add_argument(
-        "--batch-size",
-        metavar="N",
-        type=int,
-        default=None,
-        help="Number of images processed in parallel. Defaults to the number of workers",
-    )
-    parser.add_argument(
-        "--device",
-        metavar="DEV",
-        type=str,
-        default=None,
-        help="Device to use for processing. Defaults to CUDA if available.",
-    )
-    parser.add_argument(
-        "--seed",
-        metavar="S",
-        type=int,
-        default=None,
-        help="If given, runs the calculation in deterministic mode with manual seed S.",
-    )
-    parser.add_argument(
-        "--print_freq",
-        metavar="F",
-        type=int,
-        default=50,
-        help="Frequency with which the intermediate results are printed. Defaults to 50.",
-    )
-    parser.add_argument(
-        "--quiet",
-        action="store_true",
-        help="If given, only the final results is printed",
-    )
-
-    config.normalization_param = parser.parse_args()
-
-    if config.normalization_param.num_workers is None:
-        config.normalization_param.num_workers = multiprocessing.cpu_count()
-
-    if config.normalization_param.batch_size is None:
-        config.normalization_param.batch_size = config.normalization_param.num_workers
-
-    if config.normalization_param.device is None:
-        device = "cuda" if torch.cuda.is_available() else "cpu"
-    config.normalization_param.device = torch.device(device)
-
-    return config.normalization_param
-
-
-if __name__ == "__main__":
-    config.normalization_param = parse_input()
-    running_average = RunningAverage()
-    running_mean, running_std = running_average.param_calculation(config.normalization_param)
-
-    print("Mean: {}, Standard Deviation: {}".format(running_mean, running_std))
-"""
