@@ -1,6 +1,5 @@
 import torch
 import torchvision.transforms as transforms
-from six.moves import urllib
 from torchvision import datasets
 
 def dataset():

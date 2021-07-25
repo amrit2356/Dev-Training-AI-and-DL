@@ -1,5 +1,5 @@
-import argparse
-import multiprocessing
+# import argparse
+# import multiprocessing
 import os
 from math import ceil
 
@@ -9,7 +9,7 @@ from sklearn.model_selection import train_test_split
 from torch.utils import data
 from torchvision import transforms
 
-from team_dataset import TeamDataset
+from .team_dataset import TeamDataset
 
 
 class FiniteRandomSampler(data.Sampler):
@@ -58,7 +58,7 @@ class RunningAverage:
         torch.backends.cudnn.deterministic = True
         torch.backends.cudnn.benchmark = False
 
-    def param_calculation(self, args):
+    def param_calculation(self, args, dataset_path, csv_path):
         if args.seed is not None:
             self.__make_reproducible(args.seed)
 
@@ -66,11 +66,11 @@ class RunningAverage:
             [transforms.ToPILImage(), transforms.Resize((160, 64)), transforms.ToTensor()]
         )
 
-        labels = pd.read_csv(os.path.join('/home/edisn/edisn/TeamClassifier/team124_dataset/', 'train.csv'))
+        labels = pd.read_csv(csv_path)
         train_data, _ = train_test_split(labels, stratify=labels.cls, test_size=0.1)
 
         # dataset = DigitDataset(args.root, split="train", transform=transform)
-        dataset = TeamDataset(train_data, '/home/edisn/edisn/TeamClassifier/team124_dataset/', transform=transform)
+        dataset = TeamDataset(train_data, dataset_path, transform=transform)
 
         num_samples = args.num_samples
         if num_samples is None:
@@ -114,7 +114,7 @@ class RunningAverage:
 
         return running_mean.tolist(), running_std.tolist()
 
-
+"""
 def parse_input():
     parser = argparse.ArgumentParser(
         description="Calculation of Team Classification z-score parameters"
@@ -182,8 +182,11 @@ def parse_input():
 
     return args
 
-"""
+
 if __name__ == "__main__":
     args = parse_input()
-    main(args)
+    running_average = RunningAverage()
+    running_mean, running_std = running_average.param_calculation(args)
+
+    print("Mean: {}, Standard Deviation: {}".format(running_mean, running_std))
 """

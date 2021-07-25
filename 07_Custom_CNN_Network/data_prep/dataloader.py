@@ -1,45 +1,45 @@
 """
 Dataloader.
 """
-import argparse
+# import argparse
 import pandas as pd
 import torchvision.datasets as datasets
 import torchvision.transforms as transforms
 from sklearn.model_selection import train_test_split
 from torch.utils.data import DataLoader
-from torchvision.transforms.transforms import Resize
 
 from .team_dataset import TeamDataset
 from .prepare_classification_dataset import DatasetPreparator
+from .detect_normalize_params import RunningAverage
 
 class Dataloader:
-    def __init__(self, batch_size, dataset_path, train_path, data_type):
+    def __init__(self, args, batch_size, dataset_path, train_path, data_type):
         # Initialization  of DataLoader Attributes.
         self.batch_size = batch_size
         self.dataset_path = dataset_path
         self.train_path = train_path
         self.data_type = data_type
+        self.normalize_params = RunningAverage()
 
         if self.data_type == 'custom':
             # Initialization of Dataset Preparation Class
             self.data_prep = DatasetPreparator(self.dataset_path, self.train_path)
             self.csv_path = self.data_prep.dataset_creator()
-
-            # __parameters_normalized() code
+            running_mean, running_std_deviation = self.normalize_params.param_calculation(args, self.train_path, self.csv_path)
             # Getting Mean and Standard Deviation
             self.transform_train = transforms.Compose([
                 transforms.ToPILImage(),
                 transforms.RandomRotation(40),
                 transforms.Resize((160, 64)),
                 transforms.ToTensor(),
-                transforms.Normalize(mean=[0.438, 0.479, 0.336], std=[0.150, 0.155, 0.152]),
+                transforms.Normalize(mean=running_mean, std=running_std_deviation),
             ])
 
             self.transform_test = transforms.Compose([
                 transforms.ToPILImage(),
                 transforms.Resize((160, 64)),
                 transforms.ToTensor(),
-                transforms.Normalize(mean=[0.438, 0.479, 0.335], std=[0.150, 0.155, 0.152]),
+                transforms.Normalize(mean=running_std_deviation, std=running_std_deviation),
             ])
 
         else:
@@ -74,7 +74,7 @@ class Dataloader:
         return trainloader, testloader
 
 # Testing Code
-
+"""
 def main():
     data = Dataloader(512, './data', 'D:/Dev_Training_Folders/project/test-project/training', 'CIFAR10')
     trainloader, testloader = data.data_loader()
@@ -85,3 +85,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+"""
