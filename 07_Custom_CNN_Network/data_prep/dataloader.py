@@ -13,7 +13,7 @@ from .prepare_classification_dataset import DatasetPreparator
 from .detect_normalize_params import RunningAverage
 
 class Dataloader:
-    def __init__(self, args, batch_size, dataset_path, train_path, data_type):
+    def __init__(self, config, batch_size, dataset_path, train_path, data_type):
         # Initialization  of DataLoader Attributes.
         self.batch_size = batch_size
         self.dataset_path = dataset_path
@@ -25,7 +25,7 @@ class Dataloader:
             # Initialization of Dataset Preparation Class
             self.data_prep = DatasetPreparator(self.dataset_path, self.train_path)
             self.csv_path = self.data_prep.dataset_creator()
-            running_mean, running_std_deviation = self.normalize_params.param_calculation(args, self.train_path, self.csv_path)
+            running_mean, running_std_deviation = self.normalize_params.param_calculation(config, self.train_path, self.csv_path)
             # Getting Mean and Standard Deviation
             self.transform_train = transforms.Compose([
                 transforms.ToPILImage(),

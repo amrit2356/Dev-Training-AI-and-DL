@@ -1,6 +1,7 @@
 # import argparse
 # import multiprocessing
 import os
+import ast
 from math import ceil
 
 import pandas as pd
@@ -58,21 +59,21 @@ class RunningAverage:
         torch.backends.cudnn.deterministic = True
         torch.backends.cudnn.benchmark = False
 
-    def param_calculation(self, args, dataset_path, csv_path):
-        if args.seed is not None:
-            self.__make_reproducible(args.seed)
+    def param_calculation(self, config, dataset_path, csv_path):
+        if ast.literal_eval(config.normalization_param.seed) is not None:
+            self.__make_reproducible(config.normalization_param.seed)
 
         transform = transforms.Compose(
             [transforms.ToPILImage(), transforms.Resize((160, 64)), transforms.ToTensor()]
         )
 
         labels = pd.read_csv(csv_path)
-        train_data, _ = train_test_split(labels, stratify=labels.cls, test_size=0.1)
+        train_data, _ = train_test_split(labels, stratify=labels.cls, test_size=0.2)
 
-        # dataset = DigitDataset(args.root, split="train", transform=transform)
+        # dataset = DigitDataset(config.normalization_param.root, split="train", transform=transform)
         dataset = TeamDataset(train_data, dataset_path, transform=transform)
 
-        num_samples = args.num_samples
+        num_samples = ast.literal_eval(config.normalization_param.num_samples)
         if num_samples is None:
             num_samples = len(dataset)
         if num_samples < len(dataset):
@@ -83,17 +84,17 @@ class RunningAverage:
         loader = data.DataLoader(
             dataset,
             sampler=sampler,
-            num_workers=args.num_workers,
-            batch_size=args.batch_size,
+            num_workers=config.normalization_param.num_workers,
+            batch_size=config.normalization_param.batch_size,
         )
 
-        running_mean = RunningAverage(device=args.device)
-        running_std = RunningAverage(device=args.device)
-        num_batches = ceil(num_samples / args.batch_size)
+        running_mean = RunningAverage(device=config.normalization_param.device)
+        running_std = RunningAverage(device=config.normalization_param.device)
+        num_batches = ceil(num_samples / config.normalization_param.batch_size)
 
         with torch.no_grad():
             for batch, (images, _) in enumerate(loader, 1):
-                images = images.to(args.device)
+                images = images.to(config.normalization_param.device)
                 images_flat = torch.flatten(images, 2)
 
                 mean = torch.mean(images_flat, dim=2)
@@ -102,7 +103,7 @@ class RunningAverage:
                 std = torch.std(images_flat, dim=2)
                 running_std.update(std)
 
-                if not args.quiet and batch % args.print_freq == 0:
+                if not config.normalization_param.quiet and batch % config.normalization_param.print_freq == 0:
                     print(
                         (
                             f"[{batch:6d}/{num_batches}] "
@@ -168,25 +169,25 @@ def parse_input():
         help="If given, only the final results is printed",
     )
 
-    args = parser.parse_args()
+    config.normalization_param = parser.parse_args()
 
-    if args.num_workers is None:
-        args.num_workers = multiprocessing.cpu_count()
+    if config.normalization_param.num_workers is None:
+        config.normalization_param.num_workers = multiprocessing.cpu_count()
 
-    if args.batch_size is None:
-        args.batch_size = args.num_workers
+    if config.normalization_param.batch_size is None:
+        config.normalization_param.batch_size = config.normalization_param.num_workers
 
-    if args.device is None:
+    if config.normalization_param.device is None:
         device = "cuda" if torch.cuda.is_available() else "cpu"
-    args.device = torch.device(device)
+    config.normalization_param.device = torch.device(device)
 
-    return args
+    return config.normalization_param
 
 
 if __name__ == "__main__":
-    args = parse_input()
+    config.normalization_param = parse_input()
     running_average = RunningAverage()
-    running_mean, running_std = running_average.param_calculation(args)
+    running_mean, running_std = running_average.param_calculation(config.normalization_param)
 
     print("Mean: {}, Standard Deviation: {}".format(running_mean, running_std))
 """

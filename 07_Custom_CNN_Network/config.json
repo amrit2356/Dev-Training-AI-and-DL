@@ -1,0 +1,22 @@
+{
+    "project_details": {
+      "project_name": "boxmob",
+      "dataset_path": "/home/phoenix/projects/datasets/custom_datasets/boxing_dataset/",
+      "project_path": "/home/phoenix/projects/test-project/"
+      },
+    "normalization_param":{
+      "num_samples": "None",
+      "num_workers": "None",
+      "batch_size": "None",
+      "device": "None",
+      "seed": "None",
+      "quiet": true,
+      "print_freq": 50
+    },
+    "training_parameters": {
+      "num_epochs": 2000,
+      "learning_rate": 0.0001,
+      "batch_size": 512,
+      "num_classes": 2
+    }
+  }

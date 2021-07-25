@@ -8,7 +8,7 @@ from models.team_classifier_cnn import TeamClassifier as Model
 
 def main(args):
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
-    model = Model().to(device)
+    model = Model(num_classes=2).to(device)
     model.eval()
 
     x = torch.rand(args.batch_size, 3, 160, 64).to(device)
