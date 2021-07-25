@@ -4,7 +4,7 @@ import torch.nn.functional as F
 
 
 class TeamClassifier(nn.Module):
-    def __init__(self):
+    def __init__(self, num_classes):
         super(TeamClassifier, self).__init__()
         self.conv1 = nn.Conv2d(in_channels=3, out_channels=8, kernel_size=3)
         self.conv2 = nn.Conv2d(in_channels=8, out_channels=16, kernel_size=3)
@@ -14,7 +14,7 @@ class TeamClassifier(nn.Module):
 
         self.fc_layer1 = nn.Linear(1024, 512)
         self.fc_layer2 = nn.Linear(512, 256)
-        self.fc_layer3 = nn.Linear(256, 10)
+        self.fc_layer3 = nn.Linear(256, num_classes)
 
         self.training = True
 
