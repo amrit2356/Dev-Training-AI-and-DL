@@ -3,6 +3,7 @@ from os.path import exists, isfile, join
 
 import torch
 import torch.nn as nn
+import tensorboard
 from torch.utils.tensorboard.writer import SummaryWriter
 from tqdm import tqdm
 
@@ -10,9 +11,9 @@ from models.team_classifier_cnn import TeamClassifier as Model
 
 
 class TeamClassifierTrain:
-    def __init__(self, trainloader, testloader, learning_rate, pretrained=False):
+    def __init__(self, trainloader, testloader, learning_rate, num_of_classes):
         self.device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
-        self.model = Model().to(self.device)
+        self.model = Model(num_classes=num_of_classes).to(self.device)
         self.train_loader = trainloader
         self.test_loader = testloader
         self.criterion = nn.CrossEntropyLoss()
@@ -62,17 +63,17 @@ class TeamClassifierTrain:
 
         return val_loss, acc
 
-    def __save_model(self, checkpoint_path, epoch, train_loss, val_acc):
+    def __save_model(self, checkpoint_path, epoch, val_loss):
         if not exists(checkpoint_path):
             makedirs(checkpoint_path)
 
-        filename = join(checkpoint_path, 'team_classifier_epoch_{}_val_acc{}.pth'.format(epoch, val_acc))
+        filename = join(checkpoint_path, 'team-classifier-epoch-{}.pth'.format(epoch))
         torch.save({
             'model': self.model,
             'epoch': epoch,
             'state_dict': self.model.state_dict(),
             'optimizer': self.optimizer.state_dict(),
-            'training_loss': train_loss}, filename)
+            'validation_loss': val_loss}, filename)
         return filename
 
     def __export_model(self, checkpoint_path, export_path):
@@ -95,13 +96,8 @@ class TeamClassifierTrain:
         writer.add_scalar('Validation Loss', val_loss, epoch)
         writer.add_scalar('Validation Accuracy', val_acc, epoch)
 
-    def __mlflow_logging(self):
-        pass
-
-    def train(self, epochs, checkpoint_path, export_path):
-        writer = SummaryWriter()
-        val_loss_best = 0.0
-        val_acc_best = 0.0
+    def train(self, epochs, checkpoint_path, export_path, visualization_path):
+        writer = SummaryWriter(log_dir=visualization_path)
 
         for epoch in range(1, epochs + 1):
 
@@ -111,15 +107,11 @@ class TeamClassifierTrain:
             train_loss = train_loss / len(self.train_loader.sampler)
             validation_loss = validation_loss / len(self.test_loader.sampler)
 
-            print('Epoch: {} Train Loss: {:.6f} Val Loss: {:.6f} Val Accuracy: {:.2f}%'.format(
-                epoch, train_loss, validation_loss, validation_accuracy))
+            print('Epoch: {} Train Loss: {:.6f} Val Loss: {:.6f} Val Accuracy: {:.2f}%'.format(epoch, train_loss, validation_loss, validation_accuracy))
 
             self.__tensorboard_logging(writer, epoch, train_loss, validation_loss, validation_accuracy)
 
-            if val_loss_best < validation_loss or val_acc_best < validation_accuracy:
-                val_loss_best = round(validation_loss, 3)
-                val_acc_best = round(validation_accuracy, 3)
-                model_path = self.__save_model(checkpoint_path, epoch, train_loss, val_acc_best)
+            model_path = self.__save_model(checkpoint_path, epoch, validation_loss)
 
             print('Checkpoint saved in this path: {}'.format(model_path))
             writer.flush()
