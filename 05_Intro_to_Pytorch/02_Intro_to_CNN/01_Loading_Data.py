@@ -4,8 +4,6 @@ Data Loading in Pytorch
 import torch
 import torchvision
 import torchvision.transforms as transforms
-import matplotlib.pyplot as plt
-import numpy as np
 
 # Loading a Training Dataset deom CIFAR10
 trainset = torchvision.datasets.CIFAR10(root='./data', train=True, download=True, transform=transforms.ToTensor())

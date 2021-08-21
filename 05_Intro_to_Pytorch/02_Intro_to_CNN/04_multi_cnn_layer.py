@@ -12,7 +12,7 @@ import torchvision.transforms as transforms
 class FirstCNN_v2(nn.Module):
     def __init__(self):
         super(FirstCNN_v2, self).__init__()
-        self.model = nn.Sequential( 
+        self.model = nn.Sequential(
             nn.Conv2d(3, 6, 5),          # (N, 3, 32, 32) -> (N, 6, 28, 28)
             nn.AvgPool2d(2, stride=2),   # (N, 6, 28, 28) -> (N, 6, 14, 14)
             nn.Conv2d(6, 16, 5),         # (N, 6, 14, 14) -> (N, 16, 10, 10)
@@ -23,14 +23,17 @@ class FirstCNN_v2(nn.Module):
         x = self.model(x)
         return x
 
+
 def main():
     # Loading a Training Dataset deom CIFAR10
-    trainset = torchvision.datasets.CIFAR10(root='./data', train=True, download=True, transform=transforms.ToTensor())
-    train_loader = torch.utils.data.DataLoader(trainset, batch_size=4, shuffle=True)
-
+    trainset = torchvision.datasets.CIFAR10(
+        root='./data', train=True, download=True, transform=transforms.ToTensor())
+    train_loader = torch.utils.data.DataLoader(
+        trainset, batch_size=4, shuffle=True)
 
     # Classes
-    classes = ('plane', 'car', 'bird', 'cat', 'deer','dog', 'frog', 'horse','ship','truck')
+    classes = ('plane', 'car', 'bird', 'cat', 'deer',
+               'dog', 'frog', 'horse', 'ship', 'truck')
 
     # Getting Images with the dataset
     dataiter = iter(train_loader)
@@ -43,7 +46,8 @@ def main():
     for param in net.parameters():
         print(param.shape)
 
-    plt.imshow(out[0, 0, :, :].detach().numpy())   
+    plt.imshow(out[0, 0, :, :].detach().numpy())
+
 
 if __name__ == "__main__":
     main()
