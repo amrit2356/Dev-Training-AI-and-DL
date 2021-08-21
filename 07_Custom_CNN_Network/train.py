@@ -19,14 +19,14 @@ def main(config):
 
     # Torch Device
     device = config.normalization_param.device
-    
+
     # Setting the Training, Checkpoint, Export, Runs Folder Path
     train_path, checkpoint_path, exports_path, run_path = create_folder_structure(project_path, project_name)
-    
+
     # Preparing the Dataset for Training
     data = Dataloader(config, batch_size, dataset_path, train_path)
     trainloader, testloader = data.data_loader()
-    
+
     # Initialize Training Class
     training = TeamClassifierTrain(device, trainloader, testloader, learning_rate, num_classes)
     training.train(num_epochs, checkpoint_path, exports_path, run_path)

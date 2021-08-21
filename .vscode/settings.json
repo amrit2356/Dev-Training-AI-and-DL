@@ -1,12 +1,13 @@
 {
     "python.linting.pylintEnabled": false,
-    "python.linting.flake8Enabled": false,
+    "python.linting.flake8Enabled": true,
     "python.linting.enabled": true,
     "python.linting.flake8Args": [
         "--max-line-length=180",
         "--ignore=E402,F841,F401,E302,E305",
     ],
-    "python.analysis.extraPaths": ["./01_Primitive_Neurons",
+    "python.analysis.extraPaths": [
+                                   "./01_Primitive_Neurons",
                                    "./02_Sigmoid_Neuron",
                                    "./03_FeedForward_Neural_Net/Scalar_BackPropagation",
                                    "./03_FeedForward_Neural_Net/Vector_BackPropagation",
@@ -18,5 +19,14 @@
                                    "./14_Reinforcement_Learning/02_Temporal_Difference_Methods",
                                    "./15_Deep_Reinforcement_Learning/00_RL_in_Continuous_Spaces"
                             ],
-    "jupyter.jupyterServerType": "local"
+    "jupyter.jupyterServerType": "local",
+    "editor.fontFamily": "Consolas, 'Courier New', monospace",
+    "terminal.integrated.fontFamily": "FiraMono Nerd Font",
+    "workbench.iconTheme": "material-icon-theme",
+    "editor.suggestSelection": "first",
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+    "files.autoSave": "afterDelay",
+    "editor.fontSize": 14,
+    "editor.autoIndent": "full",
+    "editor.tabSize": 4
 }

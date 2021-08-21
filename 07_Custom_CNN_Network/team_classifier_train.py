@@ -11,7 +11,7 @@ from models.team_classifier_cnn import TeamClassifier as Model
 
 
 class TeamClassifierTrain:
-    def __init__(self, device ,trainloader, testloader, learning_rate, num_of_classes):
+    def __init__(self, device, trainloader, testloader, learning_rate, num_of_classes):
         self.device = device
         self.model = Model(num_classes=num_of_classes).to(self.device)
         self.train_loader = trainloader
@@ -100,7 +100,6 @@ class TeamClassifierTrain:
         writer = SummaryWriter(log_dir=visualization_path)
 
         for epoch in range(1, epochs + 1):
-
             train_loss = self.__train_epoch()
             validation_loss, validation_accuracy = self.__val_epoch()
 
