@@ -5,7 +5,6 @@ and Cross Entropy Loss
 import argparse
 import math
 
-import matplotlib.colors
 import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.metrics import accuracy_score, mean_squared_error, log_loss

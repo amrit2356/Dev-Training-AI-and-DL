@@ -20,7 +20,7 @@
                                    "./15_Deep_Reinforcement_Learning/00_RL_in_Continuous_Spaces"
                             ],
     "jupyter.jupyterServerType": "local",
-    "editor.fontFamily": "Consolas, 'Courier New', monospace",
+    "editor.fontFamily": " monospace",
     "terminal.integrated.fontFamily": "FiraMono Nerd Font",
     "workbench.iconTheme": "material-icon-theme",
     "editor.suggestSelection": "first",

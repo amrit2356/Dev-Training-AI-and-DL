@@ -6,6 +6,11 @@ from team_classifier_train import TeamClassifierTrain
 
 
 def main(config):
+    """[summary]
+
+    Args:
+        config ([type]): [description]
+    """
     # Project Attributes
     project_path = config.project_details.project_path
     dataset_path = config.project_details.dataset_path
